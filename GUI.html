@@ -1,0 +1,357 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+        }
+        h1 {
+            color: white;
+            text-align: center; 
+        }
+        .chat-container {
+            max-width: 750px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+        .chat-box {
+            height: 450px;
+            overflow-y: scroll;
+        }
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .bot-message {
+            background-color: #dff0d8;
+        }
+        .user-message {
+            background-color: #d9edf7;
+        }
+        .user-input {
+            width: calc(100% - 80px);
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px 0 0 8px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+        .send-button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 0 8px 8px 0;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            outline: none;
+        }
+        .send-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <h1>Tahaow Chatbot</h1>
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <div class="chat-message bot-message">Welcome! How can I assist you today?</div>
+        </div>
+        <input type="text" id="user-input" class="user-input" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()" class="send-button">Send</button>
+    </div>
+    <script>
+        function sendMessage() {
+        var userInput = document.getElementById("user-input").value;
+        if (userInput.trim() === "") return;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/ask", true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+
+                var chatBox = document.getElementById("chat-box");
+                // User message
+                var userMessageElement = document.createElement("div");
+                userMessageElement.className = "chat-message user-message";
+                userMessageElement.textContent = userInput;
+                chatBox.appendChild(userMessageElement);
+                // Bot message
+                var botMessageElement = document.createElement("div");
+                botMessageElement.className = "chat-message bot-message";
+                botMessageElement.textContent = response.answer; // Display the answer from the bot, which is received from model.py
+                chatBox.appendChild(botMessageElement);
+
+                // Scroll to bottom
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+                // Clear input
+                document.getElementById("user-input").value = "";
+            }
+        };
+        xhr.send('question=' + encodeURIComponent(userInput));
+    }
+
+    function handleKeyPress(event) {
+        if (event.keyCode === 13) { // Enter key
+            event.preventDefault(); // Prevent default action
+            sendMessage();
+        }
+    }
+
+        function handleKeyPress(event) {
+            if (event.keyCode === 13) { // Enter key
+                event.preventDefault(); // Prevent default action
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+        }
+        h1 {
+            color: white;
+            text-align: center; 
+        }
+        .chat-container {
+            max-width: 750px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+        .chat-box {
+            height: 450px;
+            overflow-y: scroll;
+        }
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .bot-message {
+            background-color: #dff0d8;
+        }
+        .user-message {
+            background-color: #d9edf7;
+        }
+        .user-input {
+            width: calc(100% - 80px);
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px 0 0 8px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+        .send-button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 0 8px 8px 0;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            outline: none;
+        }
+        .send-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <h1>Tahaow Chatbot</h1>
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <div class="chat-message bot-message">Welcome! How can I assist you today?</div>
+        </div>
+        <input type="text" id="user-input" class="user-input" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()" class="send-button">Send</button>
+    </div>
+    <script>
+        function sendMessage() {
+            var userInput = document.getElementById("user-input").value;
+            if (userInput.trim() === "") return;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/ask", true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+
+                    var chatBox = document.getElementById("chat-box");
+                    // User message
+                    var userMessageElement = document.createElement("div");
+                    userMessageElement.className = "chat-message user-message";
+                    userMessageElement.textContent = userInput;
+                    chatBox.appendChild(userMessageElement);
+                    // Bot message
+                    var botMessageElement = document.createElement("div");
+                    botMessageElement.className = "chat-message bot-message";
+                    botMessageElement.textContent = response.answer; // Display the answer from the bot
+                    chatBox.appendChild(botMessageElement);
+
+                    // Scroll to bottom
+                    chatBox.scrollTop = chatBox.scrollHeight;
+
+                    // Clear input
+                    document.getElementById("user-input").value = "";
+                }
+            };
+            xhr.send('question=' + encodeURIComponent(userInput));
+        }
+
+        function handleKeyPress(event) {
+            if (event.keyCode === 13) { // Enter key
+                event.preventDefault(); // Prevent default action
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tahaow Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+        }
+        h1 {
+            color: white;
+            text-align: center; 
+        }
+        .chat-container {
+            max-width: 750px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+        .chat-box {
+            height: 450px;
+            overflow-y: scroll;
+        }
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .bot-message {
+            background-color: #dff0d8;
+        }
+        .user-message {
+            background-color: #d9edf7;
+            text-align: right;
+        }
+        .user-input {
+            width: calc(100% - 80px);
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px 0 0 8px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+        .send-button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 0 8px 8px 0;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            outline: none;
+        }
+        .send-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <h1>Tahaow Chatbot</h1>
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <div class="chat-message bot-message">Welcome! How can I assist you today?</div>
+        </div>
+        <input type="text" id="user-input" class="user-input" placeholder="Type your question here..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()" class="send-button">Send</button>
+    </div>
+    <script>
+        function sendMessage() {
+            var userInput = document.getElementById("user-input").value;
+            if (userInput.trim() === "") return;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/ask", true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+
+                    var chatBox = document.getElementById("chat-box");
+                    // User message
+                    var userMessageElement = document.createElement("div");
+                    userMessageElement.className = "chat-message user-message";
+                    userMessageElement.textContent = userInput;
+                    chatBox.appendChild(userMessageElement);
+                    // Bot message
+                    var botMessageElement = document.createElement("div");
+                    botMessageElement.className = "chat-message bot-message";
+                    botMessageElement.textContent = response.answer; // Display the answer from the bot
+                    chatBox.appendChild(botMessageElement);
+
+                    // Scroll to bottom
+                    chatBox.scrollTop = chatBox.scrollHeight;
+
+                    // Clear input
+                    document.getElementById("user-input").value = "";
+                }
+            };
+            xhr.send('question=' + encodeURIComponent(userInput));
+        }
+
+        function handleKeyPress(event) {
+            if (event.keyCode === 13) { // Enter key
+                event.preventDefault(); // Prevent default action
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>
